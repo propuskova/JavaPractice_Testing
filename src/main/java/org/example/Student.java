@@ -1,66 +1,56 @@
 package org.example;
 
+import lombok.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
+@ToString
+@EqualsAndHashCode
 public class Student {
+
+    @Getter    @Setter
     private String name;
-    private List<Integer> grades= new ArrayList<>();
+    private List<Integer> grades = new ArrayList<>();
 
-    public Student(String name) {
+    private final GrageChecker checker;
+
+    public Student(String name, GrageChecker checker) {
         this.name = name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getName() {
-        return name;
+        this.checker = checker;
     }
 
     public List<Integer> getGrades() {
         return new ArrayList<>(grades);
-        //return grades; //нарушение инкапсуляции
     }
 
+//    @SneakyThrows
+//    public void addGrade(int grade) {
+//        CloseableHttpClient httpClient = HttpClients.createDefault();
+//        HttpGet request = new HttpGet("http://localhost:5352/checkGrade?grade="+grade);
+//        CloseableHttpResponse httpResponse = httpClient.execute(request);
+//        HttpEntity entity = httpResponse.getEntity();
+//        if(!Boolean.parseBoolean(EntityUtils.toString(entity))){
+//            throw new IllegalArgumentException(grade + " is wrong grade");
+//        }
+//        grades.add(grade);
+//    }
+
+//    @SneakyThrows
+//    public int raiting() {
+//        CloseableHttpClient httpClient = HttpClients.createDefault();
+//        HttpGet request = new HttpGet("http://localhost:5352/educ?sum="+grades.stream().mapToInt(x->x).sum());
+//        CloseableHttpResponse httpResponse = httpClient.execute(request);
+//        HttpEntity entity = httpResponse.getEntity();
+//        return Integer.parseInt(EntityUtils.toString(entity));
+//    }
+
+    //Student не знает о HttpClient —> его можно тестировать,подставляя нужную реализацию GradeChecker
     public void addGrade(int grade) {
-        if (grade < 2 || grade > 5) {
+        if (!checker.isValid(grade)) {
             throw new IllegalArgumentException(grade + " is wrong grade");
         }
         grades.add(grade);
     }
-
-    @Override
-    public int hashCode() {
-        int hash = 7;
-        hash = 13 * hash + Objects.hashCode(this.name);
-        hash = 13 * hash + Objects.hashCode(this.grades);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final Student other = (Student) obj;
-        if (!Objects.equals(this.name, other.name)) {
-            return false;
-        }
-        return Objects.equals(this.grades, other.grades);
-    }
-
-    @Override
-    public String toString() {
-        return "Student{" + "name=" + name + ", marks=" + grades + '}';
-    }
 }
+
+

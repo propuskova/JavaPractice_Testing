@@ -11,7 +11,7 @@ public class StudentTest {
 
     @Test
     @DisplayName("Добавление и получение списка оценок")
-    public void testAddAndGetGrades() {
+    public void testAddAndGetGradesTest() {
         Student student = new Student("Anastasia");
         student.addGrade(4);
         student.addGrade(5);
@@ -34,7 +34,7 @@ public class StudentTest {
 
     @Test
     @DisplayName("Невозможно изменение оригинала списка оценок при изменении копии (инкапсуляция)")
-    public void testGradesEncapsulationWithCopy() {
+    public void testGradesEncapsulationWithCopyTest() {
         Student student = new Student("Ivan");
         student.addGrade(2);
         List<Integer> grades = student.getGrades();
@@ -46,7 +46,7 @@ public class StudentTest {
 
     @Test
     @DisplayName("Невозможно добавление оценки ниже допустимой границы")
-    public void testAddGradeInvalidLow() {
+    public void testAddGradeInvalidLowTest() {
         Student student = new Student("David");
         Exception e = assertThrows(IllegalArgumentException.class, () -> student.addGrade(1));
         assertEquals("1 is wrong grade", e.getMessage());
@@ -54,7 +54,7 @@ public class StudentTest {
 
     @Test
     @DisplayName("Невозможно добавление оценки выше допустимой границы")
-    public void testAddGradeInvalidHigh() {
+    public void testAddGradeInvalidHighTest() {
         Student student = new Student("Eva");
         Exception e = assertThrows(IllegalArgumentException.class, () -> student.addGrade(6));
         assertEquals("6 is wrong grade", e.getMessage());
@@ -62,7 +62,7 @@ public class StudentTest {
 
     @Test
     @DisplayName("Сравнение ссылок и хэш-кодов")
-    public void testEqualsAndHashCode() {
+    public void testEqualsAndHashCodeTest() {
         Student s1 = new Student("Tom");
         Student s2 = new Student("Tom");
         s1.addGrade(5);
@@ -74,7 +74,7 @@ public class StudentTest {
 
     @Test
     @DisplayName("Проверка вывода строки в ожидаемом формате")
-    public void testToString() {
+    public void testToStringTest() {
         Student student = new Student("Alex");
         student.addGrade(3);
         String expected = "Student{name=Alex, marks=[3]}";
